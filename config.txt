@@ -1,0 +1,8 @@
+[Screen]
+fullscreen = False
+width = 800
+height = 600
+
+[Sound]
+soundfx = 100
+music = 100
