@@ -9,8 +9,8 @@ config = ConfigParser.RawConfigParser()
 config.read('config.txt')
     
 fullscreen = bool(config.get('Screen', 'fullscreen'))
-width = int(config.get('Screen', 'width')
-height = int(config.get('Screen', 'height')
+width = int(config.get('Screen', 'width'))
+height = int(config.get('Screen', 'height'))
 
 soundfx = int(config.get('Sound', 'soundfx'))
 music = int(config.get('Sound', 'music'))
