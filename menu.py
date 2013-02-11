@@ -2,20 +2,17 @@
 
 import pygame
 import ConfigParser
+from modules import config
 
+pygame.init()
 
 # Import config
-config = ConfigParser.RawConfigParser()
-config.read('config.txt')
-    
-fullscreen = bool(config.get('Screen', 'fullscreen'))
-width = int(config.get('Screen', 'width'))
-height = int(config.get('Screen', 'height'))
+cfg = config.config()
 
-soundfx = int(config.get('Sound', 'soundfx'))
-music = int(config.get('Sound', 'music'))
-
-
+fullscreen = cfg.fullscreen
+width = cfg.width
+height = cfg.height
+resolution = (width, height)
 
 # Define colors
 white = (255,255,255)
@@ -63,7 +60,7 @@ class main_menu(menu):
     def select(self):
         current = self.children[self.index]
         return current
-    def return(self):
+    def back(self):
         if self.title == 'MAIN':
             return 0
         else:
@@ -95,17 +92,32 @@ class option_menu(menu):
         else:
             self.option_choice = None
             return self
-        
-def init_menus():
-    controller = option_menu('CONTROLLER', 'options_in.png', width, height, Rect(1,1,2,2), [])
-    video = option_menu('VIDEO', 'options_in.png', width, height, Rect(1,1,2,2), [])
-    game = option_menu('GAME', 'options_in.png', width, height, Rect(1,1,2,2), [])
-    sound = option_menu('SOUND', 'options_in.png', width, height, Rect(1,1,2,2), [])
-    options = main_menu('OPTIONS', 'main_option.png', width, height, Rect(0.6, 0.5, 0.3, 0.08), [controller, video, game, sound])
-    main_menu = main_menu('MAIN', 'main_menu.png', width, height, Rect(1,1,2,2), [new_game, start, load, options, exit])
+
+class launch(object):
+    def __init__(self, title, width, height, rect):
+        self.title = title
+        self.position = (width / rect.left, height / rect.top)
+    def getTitle(self):
+        return self.title
+    def getPos(self):
+        return self.position
+
+
+# Init menus        
+exit = launch('QUIT', width, height, pygame.Rect(10,10,10,10))
+load = launch('LOAD', width, height, pygame.Rect(10,10,10,10))
+start = launch('CONTINUE', width, height, pygame.Rect(10,10,10,10))
+new_game = launch('NEW GAME', width, height, pygame.Rect(10,10,10,10))
+controller = option_menu('CONTROLLER', 'options_in.png', width, height, pygame.Rect(10,10,10,10), [])
+video = option_menu('VIDEO', 'options_in.png', width, height, pygame.Rect(10,10,10,10), [])
+game = option_menu('GAME', 'options_in.png', width, height, pygame.Rect(10,10,10,10), [])
+sound = option_menu('SOUND', 'options_in.png', width, height, pygame.Rect(10,10,10,10), [])
+options = main_menu('OPTIONS', 'main_option.png', width, height, pygame.Rect(2, 2, 3.3, 12), [controller, video, game, sound])
+main = main_menu('MAIN', 'main_menu.png', width, height, pygame.Rect(10,10,10,10), [new_game, start, load, options, exit])
+
 
 # Main
-current = main_menu
+current = main
 done = False
 while not done:
     for event in pygame.event.get():
@@ -122,7 +134,7 @@ while not done:
                 current = current.select()
             if event.key == pygame.K_ESCAPE:
                 option = current.back()
-                if option = 0:
+                if option == 0:
                     done = True
     current.print_titles(screen)
     pygame.display.flip()

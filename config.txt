@@ -1,7 +1,7 @@
 [Screen]
-fullscreen = False
-width = 800
-height = 600
+fullscreen = 0
+width = 900
+height = 1000
 
 [Sound]
 soundfx = 100
