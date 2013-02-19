@@ -1,7 +1,6 @@
 #!/usr/bin/env python2.7
 
 import pygame
-import ConfigParser
 from modules import config
 
 pygame.init()
@@ -30,7 +29,7 @@ class menu(object):
         self.title = title
         self.font_size = height / rect.height
         self.index = 0
-        self.background = pygame.image.load("menus/%s" % background).convert()
+        self.background = pygame.image.load("resources/menus/%s" % background).convert()
         self.position = (width / rect.left, height / rect.top)
         self.rect = rect
     def setParent(self, parent):
